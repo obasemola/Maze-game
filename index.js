@@ -2,6 +2,7 @@ const { Engine, Render, Runner, World, Bodies } = Matter;
 
 const width = 600;
 const height = 600;
+const cells = 3;
 
 const engine = Engine.create();
 const { world } = engine;
@@ -26,6 +27,8 @@ const walls = [
 ];
 World.add(world, walls);
 
+//Maze generation - first the idea is to create an array with a particular dimension and then create another set of arrays inside of it to track and save changes and movement inside the maze. The verticals array tracks movements from side to side and saves walls between cells as False and the connections between cells that have no walls as True.
+
 // Maze generation approach 1
 // const grid = []
 
@@ -38,20 +41,52 @@ World.add(world, walls);
 // }
 // console.log(grid);
 
-const grid = Array(3)
+//Maze generation approach 2
+
+const grid = Array(cells)
 .fill(null)
-.map(() => Array(3).fill(false));
+.map(() => Array(cells).fill(false));
 
-const verticals = Array(3)
+const verticals = Array(cells)
 .fill(null)
-.map(() => Array(2).fill(false));
+.map(() => Array(cells - 1).fill(false));
 
-const horizontals = Array(2)
+const horizontals = Array(cells - 1)
 .fill(null)
-.map(() => Array(3).fill(false));
+.map(() => Array(cells).fill(false));
 
 
+const startRow = Math.floor(Math.random() * cells);
+const startColumn = Math.floor(Math.random() * cells);
 
+
+const moveBetweenCells = (row, column) => {
+// If we have visited the cell at [row, column], then return
+if (grid[row][column]){
+  return;
+}
+// Mark thr cell as visited
+grid[row][column] = true;
+
+// Assemble randomly ordered list of neighbors
+const neighbors = [
+  [row - 1, column],
+  [row, column + 1],
+  [row + 1, column],
+  [row, column - 1]
+]
+
+// For each neighbor....
+
+// See if thr neighbor is our of bounds
+
+// If we have visited that neighbor, continue to next neighbor
+
+// Remove a wall from either horizontals or verticals
+
+// Visit the next cell
+};
+
+moveBetweenCells(startRow, startColumn);
 console.log(grid);
-console.log(verticals);
-console.log(horizontals);
+
