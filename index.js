@@ -79,52 +79,59 @@ const startColumn = Math.floor(Math.random() * cells);
 
 const moveBetweenCells = (row, column) => {
 // If we have visited the cell at [row, column], then return
-if (grid[row][column]){
-  return;
-}
-// Mark thr cell as visited
-grid[row][column] = true;
-
-// Assemble randomly ordered list of neighbors
-const neighbors = shuffle([
-  [row - 1, column, 'up'],
-  [row, column + 1, 'right'],
-  [row + 1, column, 'down'],
-  [row, column - 1, 'left']
-])
-
-// For each neighbor....
-for(let neighbor of neighbors) {
-  const [nextRow, nextColumn, direction] = neighbor;
-
-  // See if thr neighbor is our of bounds
-
-  if(nextRow < 0 || nextRow >= cells || nextColumn < 0 || nextColumn >= cells){
-    continue;
+  if (grid[row][column]){
+    return;
   }
 
-  // If we have visited that neighbor, continue to next neighbor
-  if(grid[nextRow] [nextColumn]){
-    continue;
+  // Mark the cell as visited
+  grid[row][column] = true;
+
+  // Assemble randomly ordered list of neighbors
+  const neighbors = shuffle([
+    [row - 1, column, 'up'],
+    [row, column + 1, 'right'],
+    [row + 1, column, 'down'],
+    [row, column - 1, 'left']
+  ]);
+
+  // For each neighbor....
+  for(let neighbor of neighbors) {
+    const [nextRow, nextColumn, direction] = neighbor;
+
+    // See if thr neighbor is our of bounds
+
+    if(
+      nextRow < 0 ||
+      nextRow >= cells||
+      nextColumn < 0 ||
+      nextColumn >= cells
+      ){
+      continue;
+    }
+
+    // If we have visited that neighbor, continue to next neighbor
+    if(grid[nextRow][nextColumn]){
+      continue;
+    }
+    
+    // Remove a wall from either horizontals or verticals
+    if(direction === 'left'){
+      verticals[row][column - 1] = true;
+    } else if (direction === 'right'){
+      verticals[row][column] = true;
+    } else if(direction === 'up'){
+      horizontals[row - 1][column] = true;
+    } else if(direction === 'down') {
+      horizontals[row][column] = true;
+    }
+
+    moveBetweenCells(nextRow, nextColumn);
+    
   }
-  
-  // Remove a wall from either horizontals or verticals
-  if(direction === 'left'){
-    verticals[row][column - 1] = true;
-  } else if (direction === 'right'){
-    verticals[row][column] = true;
-  } else if(direction === 'up'){
-    horizontals[row - 1][column] = true;
-  } else if(direction === 'down') {horizontals[row][column] = true;
-  
-  }
-}
-
-
-
-
 // Visit the next cell
 };
-
 moveBetweenCells(startRow, startColumn);
+
+
+
 
