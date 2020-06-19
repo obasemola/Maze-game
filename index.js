@@ -87,25 +87,44 @@ grid[row][column] = true;
 
 // Assemble randomly ordered list of neighbors
 const neighbors = shuffle([
-  [row - 1, column],
-  [row, column + 1],
-  [row + 1, column],
-  [row, column - 1]
+  [row - 1, column, 'up'],
+  [row, column + 1, 'right'],
+  [row + 1, column, 'down'],
+  [row, column - 1, 'left']
 ])
 
-console.log(neighbors)
-
 // For each neighbor....
+for(let neighbor of neighbors) {
+  const [nextRow, nextColumn, direction] = neighbor;
 
-// See if thr neighbor is our of bounds
+  // See if thr neighbor is our of bounds
 
-// If we have visited that neighbor, continue to next neighbor
+  if(nextRow < 0 || nextRow >= cells || nextColumn < 0 || nextColumn >= cells){
+    continue;
+  }
 
-// Remove a wall from either horizontals or verticals
+  // If we have visited that neighbor, continue to next neighbor
+  if(grid[nextRow] [nextColumn]){
+    continue;
+  }
+  
+  // Remove a wall from either horizontals or verticals
+  if(direction === 'left'){
+    verticals[row][column - 1] = true;
+  } else if (direction === 'right'){
+    verticals[row][column] = true;
+  } else if(direction === 'up'){
+    horizontals[row - 1][column] = true;
+  } else if(direction === 'down') {horizontals[row][column] = true;
+  
+  }
+}
+
+
+
 
 // Visit the next cell
 };
 
-moveBetweenCells(1, 1);
-console.log(grid);
+moveBetweenCells(startRow, startColumn);
 
