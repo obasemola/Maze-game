@@ -1,4 +1,4 @@
-const { Engine, Render, Runner, World, Bodies } = Matter;
+const { Engine, Render, Runner, World, Bodies, Body } = Matter;
 
 const width = 600;
 const height = 600;
@@ -200,18 +200,20 @@ World.add(world, ball);
 
 //Configure keys to be able to move the ball
 document.addEventListener('keydown', (e) => {
+  const { x, y } = ball.velocity;
+
   if (e.keyCode === 38) {
-    console.log('move ball up');
+    Body.setVelocity(ball, { x: x, y: y - 5 });
   }
   if (e.keyCode === 40) {
-    console.log('move ball down');
+    Body.setVelocity(ball, { x: x, y: y + 5 });
   }
   if (e.keyCode === 37) {
-    console.log('move ball to the left');
+    Body.setVelocity(ball, { x: x - 5, y: y });
   }
   if (e.keyCode === 39) {
-    console.log('move ball to the right');
+    Body.setVelocity(ball, { x: x + 5, y: y });
   }
 
 
-})
+});
